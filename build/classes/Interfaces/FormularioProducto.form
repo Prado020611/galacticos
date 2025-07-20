@@ -183,7 +183,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="comboCocina" max="32767" attributes="0"/>
+                                  <Component id="txtfkcocina" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -226,7 +226,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="comboCocina" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtfkcocina" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
@@ -299,7 +299,7 @@
                 <StringItem index="2" value="Lacteos"/>
                 <StringItem index="3" value="Carnes"/>
                 <StringItem index="4" value="Cereales y granos"/>
-                <StringItem index="5" value="Especies"/>
+                <StringItem index="5" value="Especias"/>
                 <StringItem index="6" value="Grasas y aceites"/>
                 <StringItem index="7" value="Azucares"/>
                 <StringItem index="8" value="Vegetales"/>
@@ -313,12 +313,13 @@
         <Component class="javax.swing.JComboBox" name="txtunidad">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="5">
+              <StringArray count="6">
                 <StringItem index="0" value="Kilo(s)"/>
                 <StringItem index="1" value="Gramo(s)"/>
                 <StringItem index="2" value="Litro(s)"/>
                 <StringItem index="3" value="Mililitro(s)"/>
-                <StringItem index="4" value=" "/>
+                <StringItem index="4" value="Pieza(s)"/>
+                <StringItem index="5" value=" "/>
               </StringArray>
             </Property>
           </Properties>
@@ -360,18 +361,17 @@
             <Property name="text" type="java.lang.String" value="Cocina:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="comboCocina">
+        <Component class="javax.swing.JComboBox" name="txtfkcocina">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="3">
-                <StringItem index="0" value="Caliente"/>
-                <StringItem index="1" value="Fr&#xed;a "/>
-                <StringItem index="2" value="Reposter&#xed;a"/>
-              </StringArray>
+              <StringArray count="0"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtfkcocinaActionPerformed"/>
+          </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Cocina&gt;"/>
           </AuxValues>
         </Component>
       </SubComponents>
