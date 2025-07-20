@@ -4,6 +4,7 @@
  */
 package Interfaces;
 
+import Clases.Cocina;
 import Clases.Conexion;
 import Clases.Producto;
 import java.sql.Connection;
@@ -30,20 +31,20 @@ public class Productos extends javax.swing.JFrame {
 
       public void cargarProducto(){
         DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("id");
-        modelo.addColumn("nombre");
-        modelo.addColumn("cantidad");
-        modelo.addColumn("categoria");
-        modelo.addColumn("cocina");
-        modelo.addColumn("unidad");
-        modelo.addColumn("descripcion");
+        modelo.addColumn("Id");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Cantidad");
+        modelo.addColumn("Unidad de medida");
+        modelo.addColumn("Categoría");
+        modelo.addColumn("Cocina");
+        modelo.addColumn("Descripcion");
         
         
          try{
             Conexion conexion = new Conexion();
             Connection con = conexion.con;
-            
-            String sql = "SELECT * FROM productos";
+            //SELECT * FROM productos
+            String sql = "SELECT u.*, c.nombre AS nom_cocina FROM productos u INNER JOIN cocina c ON u.fkcocina = c.id_cocina";
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet datos = ps.executeQuery();
             
@@ -52,19 +53,23 @@ public class Productos extends javax.swing.JFrame {
                 String nombre = datos.getString("nombre");
                  String categoria = datos.getString("categoria");
                 int cantidad = datos.getInt("cantidad");
-                String cocina = datos.getString("cocina");
+               // String cocina = datos.getString("cocina");
+                int fkcocina = datos.getInt("fkcocina");
                 String unidad = datos.getString("unidad_medida");
                 String descripcion = datos.getString("descripcion");
+                String nom_cocina = datos.getString("nom_cocina");
                 
-                
-                         Producto producto = new Producto(id,cantidad, nombre,  categoria, cocina, unidad, descripcion);
+                        Cocina cocinax = new Cocina(fkcocina, nom_cocina);
+                         Producto producto = new Producto(id, nombre, cantidad, unidad, categoria, fkcocina, descripcion);
                 
                     modelo.addRow(new Object []{
                     producto.getId(),
-                    producto.getCantidad(),
                     producto.getNombre(),
+                    producto.getCantidad(),
+                    producto.getUnidad(),
                     producto.getCategoria(),
-                    producto.getCocina(),
+                    nom_cocina,
+                    producto.getDescripcion(),
                     });
 }
                     datos.close();
@@ -180,13 +185,13 @@ public class Productos extends javax.swing.JFrame {
 
         tabla_producto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Producto", "Cantidad", "Unidad de medida", "Categoría", "Cocina", "Descripción"
+                "Id", "Nombre", "Cantidad", "Unidad de medida", "Categoría", "Cocina", "Descripción"
             }
         ));
         jScrollPane2.setViewportView(tabla_producto);

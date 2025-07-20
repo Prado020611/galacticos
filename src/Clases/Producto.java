@@ -18,21 +18,21 @@ public class Producto {
     public static void add(Producto producto) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
 }
- public int id, cantidad;
-  public String nombre, categoria, cocina, descripcion, unidad;
+ public int id, cantidad, cocina;
+  public String nombre, categoria, descripcion, unidad;
 
 
-    public Producto(int id, int cantidad, String nombre, String categoria, String cocina, String descripcion, String unidad) {
+    public Producto(int id, String nombre, int cantidad, String unidad, String categoria, int cocina, String descripcion) {
         this.id = id;
         this.nombre = nombre;
         this.cantidad = cantidad;
+        this.unidad = unidad;
         this.categoria = categoria;
         this.cocina = cocina;
         this.descripcion = descripcion;
-        this.unidad = unidad;
     }
     
-      public Producto(String nombre, int cantidad, String categoria, String cocina, String descripcion, String unidad) {
+      public Producto(String nombre, int cantidad, String unidad, String categoria, int cocina, String descripcion) {
         this.nombre = nombre;
         this.cantidad = cantidad;
         this.categoria = categoria;
@@ -44,7 +44,7 @@ public class Producto {
          public static void Producto() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-      
+
     public int getId() {
         return id;
     }
@@ -61,6 +61,14 @@ public class Producto {
         this.cantidad = cantidad;
     }
 
+    public int getCocina() {
+        return cocina;
+    }
+
+    public void setCocina(int cocina) {
+        this.cocina = cocina;
+    }
+
     public String getNombre() {
         return nombre;
     }
@@ -73,48 +81,44 @@ public class Producto {
         return categoria;
     }
 
-    public void setCategoria(String tipo) {
+    public void setCategoria(String categoria) {
         this.categoria = categoria;
     }
 
-    public String getCocina() {
-        return cocina;
-    }
-
-    public void setCocina(String cocina) {
-        this.cocina = cocina;
-    }
-    
-     public String getDescripcion() {
+    public String getDescripcion() {
         return descripcion;
     }
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-    
-     public String getUnidad() {
+
+    public String getUnidad() {
         return unidad;
     }
 
     public void setUnidad(String unidad) {
-        this.unidad  = unidad;
+        this.unidad = unidad;
     }
+
+    
       
+    
     
     public boolean guardar(){
         try{ 
              Conexion conexion = new Conexion();
             Connection con = conexion.con;
             //Connection con = Conexion.getConexion();
-            String sql = "INSERT INTO productos (nombre, cantidad, categoria, cocina, descripcion, unidad_medida) VALUES (?,?,?,?,?,?)";
+            String sql = "INSERT INTO productos (nombre, cantidad, unidad_medida, categoria, fkcocina, descripcion) VALUES (?,?,?,?,?,?)";
                 PreparedStatement ps = con.prepareStatement(sql);
                 ps.setString(1, nombre);
                  ps.setInt(2, cantidad);
-                  ps.setString(3, categoria);
-                   ps.setString(4, cocina);
-                   ps.setString(5, descripcion);
-                   ps.setString(6, unidad);
+                 ps.setString(3, unidad);
+                  ps.setString(4, categoria);
+                   ps.setInt(5, cocina);
+                   ps.setString(6, descripcion);
+                   
                    
                    ps.executeUpdate();
                    

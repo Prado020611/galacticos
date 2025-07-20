@@ -96,6 +96,12 @@ public class FormularioUtensilio extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel6.setText("Tipo:");
 
+        txtfkcocina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtfkcocinaActionPerformed(evt);
+            }
+        });
+
         txtdescripcion.setColumns(20);
         txtdescripcion.setRows(5);
         jScrollPane1.setViewportView(txtdescripcion);
@@ -203,23 +209,23 @@ public class FormularioUtensilio extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(185, 185, 185))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnMenu)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 295, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(153, 153, 153)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(20, Short.MAX_VALUE)
+                .addContainerGap(19, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(11, 11, 11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnMenu)
                     .addComponent(jButton1))
@@ -256,16 +262,17 @@ public class FormularioUtensilio extends javax.swing.JFrame {
       int cantidad = (int) botonCantidad.getValue();
       String tipo = txtTipo.getText();
         Cocina fkcocina = (Cocina) txtfkcocina.getSelectedItem();
-        int idcocina = fkcocina.getId();
+        int id_cocina = fkcocina.getId();
       String descripcion = txtdescripcion.getText();
       
-      Utensilio u =  new Utensilio (nombre, cantidad, tipo, idcocina, descripcion);
+      Utensilio u =  new Utensilio (nombre, cantidad, tipo, id_cocina, descripcion);
       if(u.guardar()){
            JOptionPane.showMessageDialog(null, "Utensilio guardado");
            
         }else{
           JOptionPane.showMessageDialog(null, "Error al guardar el utensilio");
       }
+      
     new Utensilios ().setVisible(true);
     }//GEN-LAST:event_botonGuardarActionPerformed
 
@@ -284,6 +291,10 @@ Utensilios listauten = new Utensilios();
       this.setVisible(false);
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void txtfkcocinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtfkcocinaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtfkcocinaActionPerformed
  
       
       

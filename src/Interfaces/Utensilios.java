@@ -4,12 +4,18 @@
  */
 package Interfaces;
 
+import Clases.Cocina;
 import Clases.Conexion;
 import Clases.Utensilio;
+import Interfaces.NuevoUtensilio;
+import static java.awt.SystemColor.menu;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -18,8 +24,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public final class Utensilios extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Utensilios.class.getName());
-
+    private static  java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Utensilios.class.getName());
+    
     
 
     /**
@@ -32,44 +38,104 @@ public final class Utensilios extends javax.swing.JFrame {
    // private javax.swing.JTable tabla_uten;
     public void cargarUtensilio(){
         DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("id");
-        modelo.addColumn("nombre");
-        modelo.addColumn("cantidad");
-        modelo.addColumn("tipo");
-        modelo.addColumn("cocina");
-         modelo.addColumn("descripcion");
-        
+        modelo.addColumn("Id");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Cantidad");
+        modelo.addColumn("Tipo");
+        modelo.addColumn("Cocina");
+        modelo.addColumn("Descripcion");
+        modelo.addColumn("Acciones");
+        modelo.addColumn("Acciones");
         try{
             Conexion conexion = new Conexion();
             Connection con = conexion.con;
-            
-            String sql = "SELECT * FROM Utensilios";
+           //SELECT * FROM Utensilios
+            String sql = "SELECT u.*, c.nombre AS nom_cocina FROM utensilios u INNER JOIN cocina c ON u.fkcocina = c.id_cocina";
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet datos = ps.executeQuery();
+            ArrayList<Utensilio> Utensilios = new ArrayList<>();
             
             while(datos.next()){
                 int id = datos.getInt("id_utensilio");
-                int cantidad = datos.getInt("cantidad");
                 String nombre = datos.getString("nombre_utensilio");
+                int cantidad = datos.getInt("cantidad");
                 String tipo = datos.getString("tipo");
-                String cocina = datos.getString("cocina");
+                int fkcocina = datos.getInt("fkcocina");
                 String descripcion = datos.getString("descripcion");
-                
-                         Utensilio uten = new Utensilio(id, cantidad, nombre, tipo, cocina, descripcion);
+                String nom_cocina = datos.getString("nom_cocina");
+                         Cocina cocina = new Cocina(fkcocina, nom_cocina);
+                         Utensilio uten = new Utensilio(id, nombre, cantidad, tipo, fkcocina, descripcion);
                 
                     modelo.addRow(new Object []{
                     uten.getId(),
-                    uten.getCantidad(),
                     uten.getNombre(),
+                    uten.getCantidad(),
                     uten.getTipo(),
-                    uten.getCocina(),
+                    nom_cocina,
                     uten.getDescripcion(),
+                    "Editar",
+                    "Eliminar",
                     });
 }
                     datos.close();
                 tabla_uten.setModel(modelo);
                 
-            
+                //
+                
+                //menu = new JPopupMenu();
+                //JMenuItem itemEditar = new JMenuItem("Editar");
+                //JMenuItem itemEliminar = new JMenuItem("Eliminar");
+                //menu.add(ItemEditar);
+                //menu.add(ItemEliminar);
+                
+                //tabla_uten.addMouseListener(new java.awt.event.MouseAdapter(){
+                   // public void mousePressed(java.awt.event.MouseEvent evt){
+                        //if (evt.isPopupTrigger() || evt.getButton() == java.awt.event.MouseEvent.BUTTON3){
+                          //  int fila = tabla_uten.rowAtPoint(evt.getPoint());
+                            //if (fila >= 0){
+                              ////menu.show(tabla_uten, evt,getX(), evt.getY());
+                            //}
+                        //}
+              //      }
+                    
+                //}
+                        
+                       // public void mouseReleased(java.awt.event.MouseEvent){
+                        //mousePressed(evt);
+
+                        //}
+                        //));
+
+                        //Editar
+                //      int fila = tabla_uten.getSelectedRow();
+                  //      if fila >= ){
+                    //        Utensilio u = Utensilios.get(fila);
+                      //      new NuevoUtensilio(u).setVisible(true);
+
+//}
+//};//));
+
+                        //Eliminar
+
+  //                      itemEliminar.addActionListener(e ->{
+    //                    int fila = tabla_uten.getSelectedRow();
+      //                    Utensilio u = Utensilios.get(fila);
+        //                    int respuesta JOptionPane.showConfirmDialog(null, "¿Estás seguro de eliminar el utensilio?", "Sí", JOptionPane.YES_NO_OPTION );
+          //                  if (respuesta == JOption.YES_OPTION){
+            //                try{
+              //                  PreparedStatement ps2 con.prepareStatement("DELETE FROM utensilios WHERE id=?");
+                //                ps2.setInt(1, u.getId());
+                  //              ps2.executeUpdate();
+                    //            cargarUtensilio();
+                      //          }catch(Exception e2){
+                        //        JOptionPane.showMessageDialog(null,"Error al guradar"+e2.getMessage());
+//}
+//}
+//}
+//});
+                //
+                
+                        
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, "Error al cargar los datos" +e.getMessage());
         }
@@ -169,13 +235,13 @@ public final class Utensilios extends javax.swing.JFrame {
 
         tabla_uten.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Nombre", "Cantidad", "Tipo", "Cocina", "Descripción"
+                "Id", "Nombre", "Cantidad", "Tipo", "Cocina", "Descripción"
             }
         ));
         jScrollPane1.setViewportView(tabla_uten);
@@ -188,7 +254,7 @@ public final class Utensilios extends javax.swing.JFrame {
                 .addGap(170, 170, 170)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 501, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

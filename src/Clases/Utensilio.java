@@ -18,24 +18,24 @@ public class Utensilio {
     public static void add(Utensilio utensilio) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-  public int id, cantidad, fkcocina;
+  public int id, cantidad, cocina;
   public String nombre, tipo, descripcion;
 
 
-    public Utensilio(int id, int cantidad, String nombre, String tipo, int fkcocina, String descripcion) {
+    public Utensilio(int id, String nombre, int cantidad, String tipo, int cocina, String descripcion) {
         this.id = id;
         this.nombre = nombre;
         this.cantidad = cantidad;
         this.tipo = tipo;
-        this.fkcocina = fkcocina;
+        this.cocina = cocina;
         this.descripcion = descripcion;
     }
     
-      public Utensilio(String nombre, int cantidad, String tipo, int fkcocina, String descripcion) {
+      public Utensilio(String nombre, int cantidad, String tipo, int cocina, String descripcion) {
         this.nombre = nombre;
         this.cantidad = cantidad;
         this.tipo = tipo;
-        this.fkcocina = fkcocina;
+        this.cocina = cocina;
         this.descripcion = descripcion;
     }
 
@@ -75,12 +75,12 @@ public class Utensilio {
         this.tipo = tipo;
     }
 
-    public int getFkcocina() {
-        return fkcocina;
+    public int getCocina() {
+        return cocina;
     }
 
-    public void setFkcocina(int fkcocina) {
-        this.fkcocina = fkcocina;
+    public void setCocina(int cocina) {
+        this.cocina = cocina;
     }
     
     public String getDescripcion() {
@@ -102,7 +102,7 @@ public class Utensilio {
                 ps.setString(1, nombre);
                  ps.setInt(2, cantidad);
                   ps.setString(3, tipo);
-                   ps.setInt(4, fkcocina);
+                   ps.setInt(4, cocina);
                    ps.setString(5, descripcion);
                    
                    ps.executeUpdate();

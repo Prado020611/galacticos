@@ -36,7 +36,7 @@ public class Cocina {
 
     @Override
     public String toString() {
-        return nombre.toString();
+        return this.nombre;
     }
     
     

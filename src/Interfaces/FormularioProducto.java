@@ -4,6 +4,7 @@
  */
 package Interfaces;
 
+import Clases.Cocina;
 import Clases.Conexion;
 import Clases.Producto;
 import java.sql.*;
@@ -22,8 +23,29 @@ public class FormularioProducto extends javax.swing.JFrame {
      */
     public FormularioProducto() {
         initComponents();
+        cargarCocina();
     }
-
+        public void cargarCocina(){
+        try{
+            Conexion conexion = new Conexion();
+            Connection con = conexion.con;
+        
+            String sql = "SELECT id_cocina, nombre FROM cocina";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet datos = ps.executeQuery();
+            
+            while(datos.next()){
+                int id = datos.getInt("id_cocina");
+                String nombre = datos.getString("nombre");
+                Cocina cocina = new Cocina (id, nombre);
+                txtfkcocina.addItem(cocina);
+            }
+            datos.close();
+            ps.close();
+            con.close();
+        }catch(Exception e){
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -57,7 +79,7 @@ public class FormularioProducto extends javax.swing.JFrame {
         txtdescripcion = new javax.swing.JTextArea();
         guardar = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
-        comboCocina = new javax.swing.JComboBox<>();
+        txtfkcocina = new javax.swing.JComboBox<>();
 
         jTextField2.setText("jTextField2");
 
@@ -135,9 +157,9 @@ public class FormularioProducto extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel6.setText("Unidad de medida:");
 
-        txtcategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Frutas", "Verduras", "Lacteos", "Carnes", "Cereales y granos", "Especies", "Grasas y aceites", "Azucares", "Vegetales" }));
+        txtcategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Frutas", "Verduras", "Lacteos", "Carnes", "Cereales y granos", "Especias", "Grasas y aceites", "Azucares", "Vegetales" }));
 
-        txtunidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kilo(s)", "Gramo(s)", "Litro(s)", "Mililitro(s)", " " }));
+        txtunidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kilo(s)", "Gramo(s)", "Litro(s)", "Mililitro(s)", "Pieza(s)", " " }));
 
         txtdescripcion.setColumns(20);
         txtdescripcion.setRows(5);
@@ -154,7 +176,11 @@ public class FormularioProducto extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel7.setText("Cocina:");
 
-        comboCocina.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Caliente", "Fría ", "Repostería" }));
+        txtfkcocina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtfkcocinaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -188,7 +214,7 @@ public class FormularioProducto extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel7)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(comboCocina, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(txtfkcocina, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGap(18, 18, 18)
                         .addComponent(guardar)))
                 .addContainerGap(27, Short.MAX_VALUE))
@@ -220,7 +246,7 @@ public class FormularioProducto extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
-                            .addComponent(comboCocina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtfkcocina, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(3, 3, 3)
@@ -250,6 +276,9 @@ public class FormularioProducto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuActionPerformed
+    MenuPrincipal menu = new MenuPrincipal();
+      menu.setVisible(true);
+      this.setVisible(false);
       
                                          
         /*MenuPrincipal menu = new MenuPrincipal();
@@ -261,12 +290,14 @@ public class FormularioProducto extends javax.swing.JFrame {
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
           String nombre = txtnombre.getText();
       String descripcion = txtdescripcion.getText();
-      int cantidad = (int) botonCantidad.getValue();
+      int cantidad = (int) botonCantidad.getValue(); 
+      Cocina fkcocina = (Cocina) txtfkcocina.getSelectedItem();
+      int id_cocina =fkcocina.getId();
       String unidad = txtunidad.getSelectedItem().toString();
       String categoria = txtcategoria.getSelectedItem().toString();
-      String cocina = comboCocina.getSelectedItem().toString();
+      //String cocina = txtCocina.getSelectedItem().toString();
       
-      Producto p =  new Producto (nombre, cantidad, categoria, cocina, descripcion, unidad);
+      Producto p =  new Producto (nombre, cantidad,unidad, categoria, id_cocina, descripcion);
       if(p.guardar()){
            JOptionPane.showMessageDialog(null, "Producto guardado");
            
@@ -282,6 +313,10 @@ Productos listaprod = new Productos();
       this.setVisible(false);
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void txtfkcocinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtfkcocinaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtfkcocinaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -312,7 +347,6 @@ Productos listaprod = new Productos();
     private javax.swing.JSpinner botonCantidad;
     private javax.swing.JButton btnMenu;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JComboBox<String> comboCocina;
     private javax.swing.JButton guardar;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
@@ -332,6 +366,7 @@ Productos listaprod = new Productos();
     private javax.swing.JTextField jTextField3;
     private javax.swing.JComboBox<String> txtcategoria;
     private javax.swing.JTextArea txtdescripcion;
+    private javax.swing.JComboBox<Cocina> txtfkcocina;
     private javax.swing.JTextField txtnombre;
     private javax.swing.JComboBox<String> txtunidad;
     // End of variables declaration//GEN-END:variables
